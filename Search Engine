@@ -1,0 +1,71 @@
+#include<iostream>
+#include<cstdio>
+using namespace std;
+struct node
+    {
+         char data;                 //Data element
+         struct node * next[26];  
+         int priority;//Pointer to left node
+                  //Pointer to right node
+    };
+struct node * newnode(char element, int pri)
+    {
+        struct node * temp=(node * )malloc(sizeof(node));
+        for(int i=0; i<26; i++)
+        temp->next[i]=NULL;
+        temp->data=element;
+        temp->priority=pri;
+        return temp;
+    }
+    struct node* head;
+int main()
+{
+    int n,q;
+    cin>>n>>q;
+    struct node* nnode;
+            
+            nnode=newnode('1',0);
+            head=nnode;
+    for(int i=0; i<n; i++)
+        {
+            string s; int pr;
+            cin>>s>>pr;
+            
+            for(unsigned int j=0; j<s.length(); j++)
+            {
+                struct node* temp1;
+                temp1=newnode(s[j],pr);
+                int pos=s[j]-'a';
+                if(nnode->next[pos]==NULL)
+                {
+                    nnode->next[pos]=temp1;
+                }
+                else{if(((nnode->next[pos])->priority)<pr)
+                    nnode->next[pos]->priority=pr;
+                }
+                nnode=nnode->next[pos];
+            }
+            nnode=head;
+        }
+    for(int i=0; i<q; i++)
+    {
+        string s;
+        cin>>s;
+        struct node* temp;
+        temp=head;
+        int counter=0;
+        for(int j=0; j<s.length(); j++)
+        {
+            int t=s[j]-'a';
+            if(temp->next[t]!=NULL)
+            temp=temp->next[t];
+            else
+            {
+                counter=1;cout<<"-1"<<"\n";break;
+            }
+            
+            
+        }if(counter==0)cout<<temp->priority<<"\n";
+    }
+    
+}
